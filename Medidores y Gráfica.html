@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!-- saved from url=(0144)file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página web con medidores y gráfica">
+    <title>Medidores y Gráfica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Fondo oscuro */
+            color: white;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 15px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        #dashboard {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .gauge {
+            width: 200px;
+            height: 200px;
+        }
+        #chart-container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        canvas {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#home">Inicio</a>
+        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#about">Acerca de</a>
+        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#contact">Contacto</a>
+    </nav>
+
+    <section id="dashboard">
+        <div>
+            <h2>Temperatura Ambiente</h2>
+            <svg id="tempGauge" class="gauge" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#333" stroke-width="10"></circle>
+                <path id="tempNeedle" fill="red" d="M50 50 L50 15 L52 50 Z" transform="rotate(-91.79999999999984 50 50)"></path>
+            </svg>
+        </div>
+        <div>
+            <h2>Humedad del Ambiente</h2>
+            <svg id="humGauge" class="gauge" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#333" stroke-width="10"></circle>
+                <path id="humNeedle" fill="blue" d="M50 50 L50 15 L52 50 Z" transform="rotate(-91.79999999999984 50 50)"></path>
+            </svg>
+        </div>
+    </section>
+
+    <section id="chart-container">
+        <h2>Seguidor de uso de timbre</h2>
+        <canvas id="myChart" width="1517" height="758" style="display: block; box-sizing: border-box; height: 758px; width: 1517px;"></canvas>
+    </section>
+
+    <script src="./Medidores y Gráfica_files/chart.js.download"></script>
+    <script>
+        // Función para mover la aguja de los medidores
+        function animateNeedle(id, start, end) {
+            let needle = document.getElementById(id);
+            let angle = start;
+            let step = (end - start) / 100;
+            let interval = setInterval(() => {
+                angle += step;
+                if (step > 0 && angle >= end || step < 0 && angle <= end) {
+                    clearInterval(interval);
+                }
+                needle.setAttribute("transform", "rotate(" + angle + " 50 50)");
+            }, 10);
+        }
+
+        // Animación de los medidores al cargar la página
+        window.onload = function() {
+            // Temperatura (mover aguja de -90 a 90 grados)
+            animateNeedle('tempNeedle', -90, 90);
+            setTimeout(() => animateNeedle('tempNeedle', 90, -90), 2000);
+
+            // Humedad (mover aguja de -90 a 90 grados)
+            animateNeedle('humNeedle', -90, 90);
+            setTimeout(() => animateNeedle('humNeedle', 90, -90), 2000);
+
+            // Gráfica de Chart.js
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['7:00 am', '8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm'],
+                    datasets: [{
+                        label: 'Mediciones',
+                        data: [10, 12, 15, 20, 25, 30, 28, 27, 26, 24, 22, 19, 18, 16, 14, 12, 10],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Horas del día'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 50,
+                            title: {
+                                display: true,
+                                text: 'Cuanto se presionó el timbre'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+
+
+
+</body></html>
