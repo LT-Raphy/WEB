@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<!-- saved from url=(0144)file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Página web con medidores y gráfica">
     <title>Medidores y Gráfica</title>
+    
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,9 +54,9 @@
 <body>
 
     <nav>
-        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#home">Inicio</a>
-        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#about">Acerca de</a>
-        <a href="file:///C:/Users/raphy/OneDrive%20-%20INTEC/Intec/Tecnolog%C3%ADas%20de%20la%20Informaci%C3%B3n%20y%20Comunicaciones/Final%20Project/mypage.html#contact">Contacto</a>
+        <a href="#home">Inicio</a>
+        <a href="#about">Acerca de</a>
+        <a href="#contact">Contacto</a>
     </nav>
 
     <section id="dashboard">
@@ -62,24 +64,23 @@
             <h2>Temperatura Ambiente</h2>
             <svg id="tempGauge" class="gauge" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#333" stroke-width="10"></circle>
-                <path id="tempNeedle" fill="red" d="M50 50 L50 15 L52 50 Z" transform="rotate(-91.79999999999984 50 50)"></path>
+                <path id="tempNeedle" fill="red" d="M50 50 L50 15 L52 50 Z" transform="rotate(-90 50 50)"></path>
             </svg>
         </div>
         <div>
             <h2>Humedad del Ambiente</h2>
             <svg id="humGauge" class="gauge" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#333" stroke-width="10"></circle>
-                <path id="humNeedle" fill="blue" d="M50 50 L50 15 L52 50 Z" transform="rotate(-91.79999999999984 50 50)"></path>
+                <path id="humNeedle" fill="blue" d="M50 50 L50 15 L52 50 Z" transform="rotate(-90 50 50)"></path>
             </svg>
         </div>
     </section>
 
     <section id="chart-container">
         <h2>Seguidor de uso de timbre</h2>
-        <canvas id="myChart" width="1517" height="758" style="display: block; box-sizing: border-box; height: 758px; width: 1517px;"></canvas>
+        <canvas id="myChart"></canvas>
     </section>
 
-    <script src="./Medidores y Gráfica_files/chart.js.download"></script>
     <script>
         // Función para mover la aguja de los medidores
         function animateNeedle(id, start, end) {
@@ -116,13 +117,13 @@
                         data: [10, 12, 15, 20, 25, 30, 28, 27, 26, 24, 22, 19, 18, 16, 14, 12, 10],
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        fill: false
                     }]
                 },
                 options: {
                     scales: {
                         x: {
-                            beginAtZero: true,
                             title: {
                                 display: true,
                                 text: 'Horas del día'
@@ -142,6 +143,5 @@
         };
     </script>
 
-
-
-</body></html>
+</body>
+</html>
